@@ -7,13 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import Link from "next/link"
 
 const UserCard = ({ user }) => {
   return (
     <div>
       <Card className="relative mx-auto w-full max-w-sm pt-0">
-        <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
-
         <CardHeader>
           <CardAction>
             {/* <Badge variant="secondary">Featured</Badge> */}
@@ -22,7 +21,9 @@ const UserCard = ({ user }) => {
           <CardDescription>{user.email}</CardDescription>
         </CardHeader>
         <CardFooter>
-          <Button className="w-full">View Event</Button>
+          <Link href={`/users/${user._id}`}>
+            <Button className="w-full cursor-pointer">View Details</Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>
