@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { Button } from "@/components/ui/button"
 import {
   Field,
@@ -7,24 +7,40 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { assert } from "console"
 
 const InputPage = () => {
-  const handleAddNewUser = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddNewUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const newUser = Object.fromEntries(formData.entries())
+    console.log(newUser)
+
+    //data sending to server:
+    const response = await fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    })
+    console.log("Response from server", response)
   }
+
   return (
     <div>
       <form onSubmit={handleAddNewUser}>
         <FieldGroup>
           <Field>
             <FieldLabel htmlFor="fieldgroup-name">Name</FieldLabel>
-            <Input id="fieldgroup-name" placeholder="Jordan Lee" />
+            <Input id="fieldgroup-name" name="name" placeholder="Jordan Lee" />
           </Field>
           <Field>
             <FieldLabel htmlFor="fieldgroup-email">Email</FieldLabel>
             <Input
               id="fieldgroup-email"
               type="email"
+              name="email"
               placeholder="name@example.com"
             />
             <FieldDescription>
