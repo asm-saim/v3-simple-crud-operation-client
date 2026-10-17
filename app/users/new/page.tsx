@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { assert } from "console"
+import { redirect } from "next/navigation"
+
 
 const InputPage = () => {
   const handleAddNewUser = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,6 +27,13 @@ const InputPage = () => {
       body: JSON.stringify(newUser),
     })
     console.log("Response from server", response)
+    const afterSubmit = await response.json()
+    console.log("After submit", afterSubmit)
+    
+    if (afterSubmit.insertedId) {
+      console.log("user added successfully")
+      redirect("/users")
+    }
   }
 
   return (
