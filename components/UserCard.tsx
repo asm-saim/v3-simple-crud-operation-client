@@ -1,3 +1,12 @@
+"use client"
+import { useRouter } from "next/navigation"
+
+interface IUser {
+  _id: string
+  name: string
+  email: string
+}
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -9,7 +18,24 @@ import {
 } from "@/components/ui/card"
 import Link from "next/link"
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user }: { user: IUser }) => {
+  const { _id } = user
+  const router = useRouter()
+
+  const handleRemove = async (id) => {
+    console.log("Removed id is", _id)
+
+    const res = await fetch(`http://localhost:5000/users/${id}`, {
+      method: "DELETE",
+    })
+    const afterDelete = await res.json()
+    console.log("deleted use is ", afterDelete)
+    if (afterDelete.deletedCount > 0) {
+      console.log("User deleted successfully")
+      router.refresh()
+    }
+  }
+
   return (
     <div>
       <Card className="relative mx-auto w-full max-w-sm pt-0">
@@ -24,6 +50,10 @@ const UserCard = ({ user }) => {
           <Link href={`/users/${user._id}`}>
             <Button className="w-full cursor-pointer">View Details</Button>
           </Link>
+          <Button className="mx-4">Edit</Button>
+          <Button onClick={() => handleRemove(_id)} variant="destructive">
+            Delete
+          </Button>
         </CardFooter>
       </Card>
     </div>
