@@ -13,15 +13,19 @@ import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-const UpdateUserInfo = ({user}) => {
+const UpdateUserInfo = ({ user }) => {
+  const handleUpdateUser = (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const updateUser = Object.fromEntries(formData.entries())
+    console.log(updateUser)
+  }
   return (
     <div className="mx-4">
       <Dialog>
-        <form>
-          <DialogTrigger
-            render={<Button variant="outline">Edit</Button>}
-          />
-          <DialogContent className="sm:max-w-sm">
+        <DialogTrigger render={<Button variant="outline">Edit</Button>} />
+        <DialogContent className="sm:max-w-sm">
+          <form onSubmit={handleUpdateUser}>
             <DialogHeader>
               <DialogTitle>Edit profile</DialogTitle>
               <DialogDescription>
@@ -36,19 +40,15 @@ const UpdateUserInfo = ({user}) => {
               </Field>
               <Field>
                 <Label htmlFor="username-1">Email</Label>
-                <Input
-                  id="username-1"
-                  name="email"
-                  defaultValue={user.email}
-                />
+                <Input id="username-1" name="email" defaultValue={user.email} />
               </Field>
             </FieldGroup>
             <DialogFooter>
               <DialogClose render={<Button variant="outline">Cancel</Button>} />
               <Button type="submit">Save changes</Button>
             </DialogFooter>
-          </DialogContent>
-        </form>
+          </form>
+        </DialogContent>
       </Dialog>
     </div>
   )
