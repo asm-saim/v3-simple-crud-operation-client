@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import Link from "next/link"
+import UpdateUserInfo from "./UpdateUserInfo"
 
 const UserCard = ({ user }: { user: IUser }) => {
   const { _id } = user
@@ -50,7 +51,7 @@ const UserCard = ({ user }: { user: IUser }) => {
           <Link href={`/users/${user._id}`}>
             <Button className="w-full cursor-pointer">View Details</Button>
           </Link>
-          <Button className="mx-4">Edit</Button>
+          <UpdateUserInfo user={user}></UpdateUserInfo>
           <Button onClick={() => handleRemove(_id)} variant="destructive">
             Delete
           </Button>
